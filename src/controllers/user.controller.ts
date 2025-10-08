@@ -17,7 +17,6 @@ export class UserController {
   static async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
-      console.log("hooo")
       const result = await UserService.login(email, password);
       successResponse(res, MESSAGES.LOGIN_SUCCESS, result);
     } catch (err) {
