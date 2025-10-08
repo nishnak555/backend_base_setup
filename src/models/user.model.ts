@@ -1,7 +1,10 @@
-import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../config/db.config"; // or a database config file if using Sequelize instance
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from "../config/db.config";
+import { IUser } from "../interfaces"; // ✅ imported from index.ts
 
-export class User extends Model {
+type UserCreationAttributes = Optional<IUser, "id">;
+
+export class User extends Model<IUser, UserCreationAttributes> implements IUser {
   public id!: number;
   public name!: string;
   public email!: string;

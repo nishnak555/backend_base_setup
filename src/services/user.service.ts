@@ -16,10 +16,10 @@ export class UserService {
   static async login(email: string, password: string) {
     const user = await User.findOne({ where: { email } });
     if (!user) throw new Error(MESSAGES.INVALID_CREDENTIALS);
-
-    const match = await comparePassword(password, user.password);
+    const hashedPassword = user.getDataValue("password"); 
+    if (!hashedPassword) throw new Error("User has no password set");
+    const match = await comparePassword(password, hashedPassword);
     if (!match) throw new Error(MESSAGES.INVALID_CREDENTIALS);
-
     const token = generateToken({ id: user.id, email: user.email });
     return { user, token };
   }
