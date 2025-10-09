@@ -1,10 +1,9 @@
+// src/docs/swagger.ts
 import swaggerJSDoc from "swagger-jsdoc";
 import path from "path";
-import { fileURLToPath } from "url";
 
-// Convert import.meta.url to __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Use path.resolve to get the project root safely
+const rootDir = path.resolve(); // C:\Users\patha\backend_base_setup\backend
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -12,7 +11,8 @@ const options: swaggerJSDoc.Options = {
     info: {
       title: "Backend API Documentation",
       version: "1.0.0",
-      description: "API documentation for your backend setup (Express + Sequelize + TypeScript).",
+      description:
+        "API documentation for your backend setup (Express + Sequelize + TypeScript).",
       contact: {
         name: "Nishank Pathak",
         email: "nishank@example.com",
@@ -34,9 +34,11 @@ const options: swaggerJSDoc.Options = {
       },
     },
   },
-
-  // Path to your route and model files (for Swagger annotations)
-  apis: [path.join(__dirname, "../routes/*.ts"), path.join(__dirname, "../models/*.ts")],
+  // Paths to route and model files for Swagger annotations
+  apis: [
+    path.join(rootDir, "src/routes/*.ts"),
+    path.join(rootDir, "src/models/*.ts"),
+  ],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

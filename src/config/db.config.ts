@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: process.env.NODE_ENV === "test" ? ".env.test" : ".env" });
 
 export const sequelize = new Sequelize(
   process.env.DB_NAME!,
@@ -12,15 +12,21 @@ export const sequelize = new Sequelize(
     port: Number(process.env.DB_PORT) || 3306,
     dialect: "mysql",
     logging: process.env.DB_LOGGING === "true" ? console.log : false,
-    pool: { max: 10, min: 0, acquire: 30000, idle: 10000 },
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
   }
 );
 
 export const connectDB = async (): Promise<void> => {
   try {
     await sequelize.authenticate();
-     await sequelize.sync({ alter: true });
-
+    if (process.env.NODE_ENV !== "test") {
+      await sequelize.sync({ alter: true });
+    }
     console.log("✅ Database connection established successfully.");
   } catch (error) {
     console.error("❌ Unable to connect to the database:", error);

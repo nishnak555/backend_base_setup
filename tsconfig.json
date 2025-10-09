@@ -4,13 +4,19 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".", 
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@App/*": ["src/*"],
+      "lib/*": ["common/*"]
+    }
   },
-  "include": ["src"], // just include src folder
+  "include": ["src", "tests"], 
   "exclude": ["node_modules", "dist"]
 }

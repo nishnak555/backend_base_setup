@@ -39,7 +39,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// in app.ts
+app.use("/", routes); // mount at root
+
 app.use("/api", routes);
+
+
 
 // Error handling
 app.use(errorMiddleware);

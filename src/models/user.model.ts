@@ -4,7 +4,10 @@ import { IUser } from "../interfaces"; // ✅ imported from index.ts
 
 type UserCreationAttributes = Optional<IUser, "id">;
 
-export class User extends Model<IUser, UserCreationAttributes> implements IUser {
+export class User
+  extends Model<IUser, UserCreationAttributes>
+  implements IUser
+{
   public id!: number;
   public name!: string;
   public email!: string;
@@ -22,5 +25,14 @@ User.init(
     sequelize,
     tableName: "users",
     timestamps: true,
+    indexes: [
+      {
+        unique: true, // ensures email is unique + creates index
+        fields: ["email"],
+      },
+      {
+        fields: ["name"], // non-unique index on name for faster search
+      },
+    ],
   }
 );
